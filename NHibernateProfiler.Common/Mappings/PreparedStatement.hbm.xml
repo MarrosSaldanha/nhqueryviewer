@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="NHibernateProfiler.Common" namespace="NHibernateProfiler.Common">
+  <class name="NHibernateProfiler.Common.Entity.PreparedStatement, NHibernateProfiler.Common"  table="PreparedStatement" lazy="false">
+    <id name="Id">
+      <generator class="guid"></generator>
+    </id>
+    <property name="CreationTime" not-null="false"/>
+    <property name="Sql" not-null="false"/>
+    <bag name="Parameters" table="PreparedStatementParameter" inverse="false" lazy="false">
+      <key column="PreparedStatementId" />
+      <one-to-many class="NHibernateProfiler.Common.Entity.PreparedStatementParameter, NHibernateProfiler.Common" />
+    </bag>
+  </class>
+</hibernate-mapping>
