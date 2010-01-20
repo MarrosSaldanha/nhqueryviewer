@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 
-namespace NHibernateProfiler.Common.PreparedStatementParameter
+namespace NHibernateProfiler.PreparedStatementParameter
 {
     /// <summary>
     /// bstack @ 17/01/2010
     /// Prepared statement parameter VALUE clause parser
     /// </summary>
-    public class VALUEClauseParser : NHibernateProfiler.Common.PreparedStatementParameter.IParser
+    public class VALUEClauseParser : NHibernateProfiler.PreparedStatementParameter.IParser
     {
         /// <summary>
         /// Must parse

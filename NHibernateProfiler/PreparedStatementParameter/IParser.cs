@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace NHibernateProfiler.Common.PreparedStatementParameter
+namespace NHibernateProfiler.PreparedStatementParameter
 {
     /// <summary>
     /// bstack @ 17/01/2010

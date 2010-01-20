@@ -5,15 +5,15 @@ using System.Linq;
 using System.Reflection;
 
 
-namespace NHibernateProfiler.Common.PreparedStatementParameter
+namespace NHibernateProfiler.PreparedStatementParameter
 {
     /// <summary>
-    /// bstack @ 19/01/2010
-    /// Chain
+    /// bstack @ 20/01/2010
+    /// Prepared statement parameter chain implementation
     /// </summary>
-    public class Chain
+    public class Chain : NHibernateProfiler.PreparedStatementParameter.IChain
     {
-        private readonly List<NHibernateProfiler.Common.PreparedStatementParameter.IParser> c_parserCache;
+        private readonly List<NHibernateProfiler.PreparedStatementParameter.IParser> c_parserCache;
 
         
 		/// <summary>
@@ -30,18 +30,18 @@ namespace NHibernateProfiler.Common.PreparedStatementParameter
 			_parserConstructorTypes = new Type[] { };
 			_parserConstructorArguments = new object[] { };
 
-            this.c_parserCache = new List<NHibernateProfiler.Common.PreparedStatementParameter.IParser>();
+            this.c_parserCache = new List<NHibernateProfiler.PreparedStatementParameter.IParser>();
 
             // Get candidate filter, which will give all types that implement IParser interface
 			_candidateFilter = candidateType => candidateType.GetInterfaces().FirstOrDefault(
 				candidateTypeInterface =>
 					candidateTypeInterface.FullName != null &&
-					candidateTypeInterface.FullName == "NHibernateProfiler.Common.PreparedStatementParameter.IParser") != null;
+					candidateTypeInterface.FullName == "NHibernateProfiler.PreparedStatementParameter.IParser") != null;
 			
             // Populate cache with all types that implement interface
 			_repositoryPopulationAction =
 				repositoryType =>
-					this.c_parserCache.Add((NHibernateProfiler.Common.PreparedStatementParameter.IParser) 
+					this.c_parserCache.Add((NHibernateProfiler.PreparedStatementParameter.IParser) 
                     repositoryType.GetConstructor(_parserConstructorTypes).Invoke(_parserConstructorArguments));
 
 			Assembly.GetExecutingAssembly().GetTypes().Where(_candidateFilter).MyForEach(_repositoryPopulationAction);

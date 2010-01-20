@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E7E550BF-DFA9-4135-8A0A-F3C25EE34F55}</ProjectGuid>
+    <ProjectGuid>{5EF0F208-9BC5-42DE-B0AD-6680B0A8F9C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NHibernateProfiler.Common.UT</RootNamespace>
-    <AssemblyName>NHibernateProfiler.Common.UT</AssemblyName>
+    <RootNamespace>NHibernateProfiler</RootNamespace>
+    <AssemblyName>NHibernateProfiler</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\NHibernate\Required_Bins\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Continuum\Sep2009\CCS\iPS\DEV\ThirdPartyComponents\NUnit\NUnit\nunit.framework.dll</HintPath>
+      <HintPath>D:\MyResearch\Continuum\Sep2009\CCS\iPS\DEV\ThirdPartyComponents\NUnit\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -47,8 +57,19 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interceptor.cs" />
+    <Compile Include="IProfiler.cs" />
+    <Compile Include="PreparedStatementParameter\Chain.cs" />
+    <Compile Include="PreparedStatementParameter\IChain.cs" />
+    <Compile Include="PreparedStatementParameter\IParser.cs" />
+    <Compile Include="PreparedStatementParameter\VALUEClauseParser.cs" />
+    <Compile Include="PreparedStatementParameter\WHEREClauseParser.cs" />
+    <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

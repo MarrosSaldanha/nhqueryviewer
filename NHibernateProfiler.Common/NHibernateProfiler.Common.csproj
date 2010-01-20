@@ -53,10 +53,6 @@
     <Compile Include="Extension\Collection.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Entity\PreparedStatement.cs" />
-    <Compile Include="PreparedStatementParameter\Chain.cs" />
-    <Compile Include="PreparedStatementParameter\VALUEClauseParser.cs" />
-    <Compile Include="PreparedStatementParameter\IParser.cs" />
-    <Compile Include="PreparedStatementParameter\WHEREClauseParser.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

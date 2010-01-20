@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 
-namespace NHibernateProfiler.Common.PreparedStatementParameter
+namespace NHibernateProfiler.PreparedStatementParameter
 {
     /// <summary>
     /// bstack @ 17/01/2010
     /// Prepared statement parameter WHERE clause parser
     /// </summary>
-    public class WHEREClauseParser : NHibernateProfiler.Common.PreparedStatementParameter.IParser
+    public class WHEREClauseParser : NHibernateProfiler.PreparedStatementParameter.IParser
     {
         /// <summary>
         /// Must parse
