@@ -1,0 +1,7 @@
+Unit test coverage - XUnit + Mocking framework (Rhino Mocks or MoQ) 
+Must add Castle Windsor IOC container - should I use a new container for learning purposes - what about Unity?
+Must consolidate all configuration into a single place
+Must expose NHibernate statistics
+Must possibly have a reporting engine
+What about sessions and session factories that are in use - we should expose this at the front
+UI - Web or windows app MVC/WPF ???
