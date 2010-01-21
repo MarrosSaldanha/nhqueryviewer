@@ -12,8 +12,8 @@ namespace NHibernateProfiler.Common
         /// <summary>
         /// Save prepared statement
         /// </summary>
-        /// <param name="subject">Sql string</param>
+        /// <param name="subject">Prepared statement</param>
         void SavePreparedStatement(
-            NHibernate.SqlCommand.SqlString subject);
+            NHibernateProfiler.Common.Entity.PreparedStatement subject);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 
 namespace NHibernateProfiler.Common.Entity
@@ -23,5 +24,11 @@ namespace NHibernateProfiler.Common.Entity
         /// Sql
         /// </summary>
         public string Sql { get; set; }
+
+        /// <summary>
+        /// Parameters
+        /// </summary>
+        public List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> Parameters { get; set; }
+
     }
 }

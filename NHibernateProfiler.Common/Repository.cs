@@ -30,18 +30,11 @@ namespace NHibernateProfiler.Common
         /// </summary>
         /// <param name="subject">Sql string</param>
         public void SavePreparedStatement(
-            NHibernate.SqlCommand.SqlString subject)
+            NHibernateProfiler.Common.Entity.PreparedStatement subject)
         {
-            var _preparedStatement = new NHibernateProfiler.Common.Entity.PreparedStatement()
-            {
-                Id = Guid.NewGuid(),
-                CreationTime = DateTime.Now,
-                Sql = subject.ToString()
-            };
-            
             using (var _session = this.c_sessionFactory.OpenSession())
             {
-                _session.Save(_preparedStatement);
+                _session.Save(subject);
                 _session.Flush();
             }
         }

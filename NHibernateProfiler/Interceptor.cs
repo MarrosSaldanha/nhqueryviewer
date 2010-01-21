@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 
 namespace NHibernateProfiler
@@ -12,11 +13,14 @@ namespace NHibernateProfiler
         private readonly NHibernateProfiler.Common.IRepository c_repository;
         private readonly NHibernateProfiler.PreparedStatementParameter.IChain c_chain;
 
+        private object c_entity;
+
 
         /// <summary>
         /// Ctor
         /// </summary>
-        /// <param name="subject">Statistics writer</param>
+        /// <param name="repository">Repository</param>
+        /// <param name="chain">Chain of prepared statement parameter parsers</param>
         public Interceptor(
             NHibernateProfiler.Common.IRepository repository,
             NHibernateProfiler.PreparedStatementParameter.IChain chain)
@@ -35,31 +39,56 @@ namespace NHibernateProfiler
             NHibernate.SqlCommand.SqlString sql)
         {
             var _sqlString =  base.OnPrepareStatement(sql);
+            var _preparedStatementId = Guid.NewGuid();
+            var _preparedStatement = new NHibernateProfiler.Common.Entity.PreparedStatement()
+            {
+                Id = _preparedStatementId,
+                CreationTime = DateTime.Now,
+                Sql = _sqlString.ToString(),
+                Parameters = this.GetParametersIfAnyExist(sql, _preparedStatementId)
+            };
 
-            this.ParseString(sql);
-
-            this.c_repository.SavePreparedStatement(_sqlString);
+            this.c_repository.SavePreparedStatement(_preparedStatement);
 
             return _sqlString;
         }
 
-        public void ParseString(
-            NHibernate.SqlCommand.SqlString sql)
-        {
-            var _sqlPartsAsStringArray = this.ConvertSqlStringToList(sql);
 
-            var _resolvedParameterNames = this.c_chain.ResolveParameters(_sqlPartsAsStringArray.ToArray());
-        }
-
-        public override bool OnSave(object entity, object id, object[] state, string[] propertyNames, NHibernate.Type.IType[] types)
+        public override bool OnSave(
+            object entity, 
+            object id, 
+            object[] state, 
+            string[] propertyNames, 
+            NHibernate.Type.IType[] types)
         {
+            this.c_entity = entity;
+
             return base.OnSave(entity, id, state, propertyNames, types);
         }
 
 
-        public override bool OnLoad(object entity, object id, object[] state, string[] propertyNames, NHibernate.Type.IType[] types)
+        public override bool OnLoad(
+            object entity, 
+            object id, 
+            object[] state, 
+            string[] propertyNames, 
+            NHibernate.Type.IType[] types)
         {
+            this.c_entity = entity;
+
             return base.OnLoad(entity, id, state, propertyNames, types);
+        }
+
+        public override void OnDelete(
+            object entity, 
+            object id, 
+            object[] state, 
+            string[] propertyNames, 
+            NHibernate.Type.IType[] types)
+        {
+            this.c_entity = entity;
+
+            base.OnDelete(entity, id, state, propertyNames, types);
         }
 
 
@@ -81,6 +110,40 @@ namespace NHibernateProfiler
 
                 _i++;
             }
+
+            return _result;
+        }
+
+
+        /// <summary>
+        /// Get parameters if any exist
+        /// </summary>
+        /// <param name="sql"></param>
+        private List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> GetParametersIfAnyExist(
+            NHibernate.SqlCommand.SqlString sql,
+            Guid preparedStatementId)
+        {
+            var _result = new List<NHibernateProfiler.Common.Entity.PreparedStatementParameter>();
+            var _sqlPartsAsStringArray = this.ConvertSqlStringToList(sql);
+
+            var _resolvedParameterNames = this.c_chain.ResolveParameters(_sqlPartsAsStringArray.ToArray());
+
+            _resolvedParameterNames.ForEach(_resolvedParameterName =>
+                {
+                    Array.ForEach(this.c_entity.GetType().GetProperties(), _objectProperty =>
+                        {
+                            if (_objectProperty.Name == _resolvedParameterName.Name)
+                            {
+                                _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    PreparedStatementId = preparedStatementId,
+                                    Name = _objectProperty.Name,
+                                    Value = _objectProperty.GetValue(this.c_entity, null).ToString()
+                                });
+                            }
+                        });
+                });
 
             return _result;
         }
