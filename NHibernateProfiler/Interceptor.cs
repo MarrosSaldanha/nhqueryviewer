@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -38,6 +39,13 @@ namespace NHibernateProfiler
         public override NHibernate.SqlCommand.SqlString OnPrepareStatement(
             NHibernate.SqlCommand.SqlString sql)
         {
+            var temp = "";
+            foreach(var part in sql.Parts)
+            {
+                temp += "\"" + part.ToString() + "\",";
+            }
+
+            
             var _sqlString =  base.OnPrepareStatement(sql);
             var _preparedStatementId = Guid.NewGuid();
             var _preparedStatement = new NHibernateProfiler.Common.Entity.PreparedStatement()
