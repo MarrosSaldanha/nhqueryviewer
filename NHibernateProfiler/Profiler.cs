@@ -53,14 +53,14 @@ namespace NHibernateProfiler
         /// </summary>
         private void StartProfilerApplicationProcess()
         {
-            var _profilerApplicationProcess = new Process();
+            //var _profilerApplicationProcess = new Process();
 
-            _profilerApplicationProcess.StartInfo.FileName = @"C:\Users\Billy\Documents\Visual Studio 2008\Projects\NHibernateProfiler\NHibernateProfiler.UI\bin\Debug\NHibernateProfiler.UI.exe";
+            //_profilerApplicationProcess.StartInfo.FileName = @"C:\Users\Billy\Documents\Visual Studio 2008\Projects\NHibernateProfiler\NHibernateProfiler.UI\bin\Debug\NHibernateProfiler.UI.exe";
             
             // TODO: BS We dont need any arguments yet
             //_profilerApplicationProcess.StartInfo.Arguments = "ProcessStart.cs";
 
-            _profilerApplicationProcess.Start();
+            //_profilerApplicationProcess.Start();
         }
 
 

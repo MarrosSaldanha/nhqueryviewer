@@ -97,11 +97,10 @@ namespace NHibernateProfiler
         /// </summary>
         /// <param name="subject"></param>
         /// <returns>List of strings representing the prepared statement</returns>
-        private List<string> ConvertSqlStringToList(
+        private string[] ConvertSqlPartsToStringArray(
             NHibernate.SqlCommand.SqlString subject)
         {
             var _sqlPartsAsStringArray = new string[subject.Parts.Count];
-            var _result = new List<string>();
             var _i = 0;
 
             foreach (var _part in subject.Parts)
@@ -111,7 +110,7 @@ namespace NHibernateProfiler
                 _i++;
             }
 
-            return _result;
+            return _sqlPartsAsStringArray;
         }
 
 
@@ -124,15 +123,15 @@ namespace NHibernateProfiler
             Guid preparedStatementId)
         {
             var _result = new List<NHibernateProfiler.Common.Entity.PreparedStatementParameter>();
-            var _sqlPartsAsStringArray = this.ConvertSqlStringToList(sql);
+            var _sqlPartsAsStringArray = this.ConvertSqlPartsToStringArray(sql);
 
-            var _resolvedParameterNames = this.c_chain.ResolveParameters(_sqlPartsAsStringArray.ToArray());
+            var _resolvedParameterNames = this.c_chain.ResolveParameters(_sqlPartsAsStringArray);
 
             _resolvedParameterNames.ForEach(_resolvedParameterName =>
                 {
                     Array.ForEach(this.c_entity.GetType().GetProperties(), _objectProperty =>
                         {
-                            if (_objectProperty.Name == _resolvedParameterName.Name)
+                            if (_objectProperty.Name == _resolvedParameterName)
                             {
                                 _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
                                 {

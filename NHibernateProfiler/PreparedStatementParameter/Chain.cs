@@ -15,6 +15,12 @@ namespace NHibernateProfiler.PreparedStatementParameter
     {
         private readonly List<NHibernateProfiler.PreparedStatementParameter.IParser> c_parserCache;
 
+
+        /// <summary>
+        /// Parser cache, here for testing purposes
+        /// </summary>
+        public List<NHibernateProfiler.PreparedStatementParameter.IParser> ParserCache { get { return this.c_parserCache; } }
+
         
 		/// <summary>
 		/// Ctor, populates cache using reflection
@@ -53,7 +59,7 @@ namespace NHibernateProfiler.PreparedStatementParameter
         /// </summary>
         /// <param name="sqlParts">sql parts</param>
         /// <returns></returns>
-        public List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> ResolveParameters(
+        public List<string> ResolveParameters(
             string[] subject)
         {
             var _parameterNames = new List<string>();
@@ -63,8 +69,7 @@ namespace NHibernateProfiler.PreparedStatementParameter
                 if (_parser.MustParse(subject)) { _parameterNames.AddRange(_parser.GetParameterNames(subject)); }
             }
 
-            // BS 19/01/2010 Get parameter values for names (using reflection)
-            return new List<NHibernateProfiler.Common.Entity.PreparedStatementParameter>();
+            return _parameterNames;
         }
 	}
 }

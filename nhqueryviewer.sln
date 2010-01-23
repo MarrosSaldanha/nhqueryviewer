@@ -7,6 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernateProfiler.Common.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernateProfiler", "NHibernateProfiler\NHibernateProfiler.csproj", "{5EF0F208-9BC5-42DE-B0AD-6680B0A8F9C1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40602327-12BE-4F18-A31F-505E9BD09330}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernateProfiler.UT", "NHibernateProfiler.UT\NHibernateProfiler.UT.csproj", "{3DFF771A-D681-4104-B49A-2E87EA72B83F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleNHibernateTestApp", "SampleNHibernateTestApp\SampleNHibernateTestApp.csproj", "{46D37A93-2FC3-4E84-9E8C-D6FEB269B532}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +34,14 @@ Global
 		{5EF0F208-9BC5-42DE-B0AD-6680B0A8F9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EF0F208-9BC5-42DE-B0AD-6680B0A8F9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EF0F208-9BC5-42DE-B0AD-6680B0A8F9C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DFF771A-D681-4104-B49A-2E87EA72B83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DFF771A-D681-4104-B49A-2E87EA72B83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DFF771A-D681-4104-B49A-2E87EA72B83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DFF771A-D681-4104-B49A-2E87EA72B83F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46D37A93-2FC3-4E84-9E8C-D6FEB269B532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46D37A93-2FC3-4E84-9E8C-D6FEB269B532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46D37A93-2FC3-4E84-9E8C-D6FEB269B532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46D37A93-2FC3-4E84-9E8C-D6FEB269B532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

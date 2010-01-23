@@ -28,7 +28,7 @@ namespace NHibernateProfiler.Common.Entity
         /// <summary>
         /// Parameters
         /// </summary>
-        public List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> Parameters { get; set; }
+        public IList<NHibernateProfiler.Common.Entity.PreparedStatementParameter> Parameters { get; set; }
 
     }
 }
