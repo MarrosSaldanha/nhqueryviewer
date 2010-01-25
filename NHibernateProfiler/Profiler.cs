@@ -13,7 +13,10 @@ namespace NHibernateProfiler
     /// </summary>
     public class Profiler : NHibernateProfiler.IProfiler
     {
-        private Configuration c_configuration;
+        private static Configuration c_configuration;
+
+
+        internal static Configuration GetConfigurationObject { get { return c_configuration; } }
 
 
         /// <summary>
@@ -32,19 +35,20 @@ namespace NHibernateProfiler
         /// <returns>NHibernate configuration object</returns>
         public Configuration Initialise()
         {
-            if (this.c_configuration == null)
+            if (c_configuration == null)
             {
                 // TODO: BS 21/12/2009 Configure in castle...
-                this.c_configuration = new Configuration().SetInterceptor(
+                c_configuration = new Configuration().SetInterceptor(
                     new NHibernateProfiler.Interceptor(
                         new NHibernateProfiler.Common.Repository(
                             this.CreateSessionFactoryFromNonDefaultConfiguration(@"D:\Temp\hibernate.cfg.xml")),
                         new NHibernateProfiler.PreparedStatementParameter.Chain()));
+
             }
 
             this.StartProfilerApplicationProcess();
 
-            return this.c_configuration;
+            return c_configuration;
         }
 
 

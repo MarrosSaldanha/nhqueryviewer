@@ -48,12 +48,15 @@ namespace NHibernateProfiler
             
             var _sqlString =  base.OnPrepareStatement(sql);
             var _preparedStatementId = Guid.NewGuid();
+            var _preparedStatements = this.GetParametersIfAnyExist(sql, _preparedStatementId);
+            this.PopulateValuesForPreparedStatements(_preparedStatements);
+
             var _preparedStatement = new NHibernateProfiler.Common.Entity.PreparedStatement()
             {
                 Id = _preparedStatementId,
                 CreationTime = DateTime.Now,
                 Sql = _sqlString.ToString(),
-                Parameters = this.GetParametersIfAnyExist(sql, _preparedStatementId)
+                Parameters = _preparedStatements
             };
 
             this.c_repository.SavePreparedStatement(_preparedStatement);
@@ -72,6 +75,11 @@ namespace NHibernateProfiler
             this.c_entity = entity;
 
             return base.OnSave(entity, id, state, propertyNames, types);
+        }
+
+        public override void SetSession(NHibernate.ISession session)
+        {
+            base.SetSession(session);
         }
 
 
@@ -135,24 +143,70 @@ namespace NHibernateProfiler
 
             var _resolvedParameterNames = this.c_chain.ResolveParameters(_sqlPartsAsStringArray);
 
-            _resolvedParameterNames.ForEach(_resolvedParameterName =>
-                {
-                    Array.ForEach(this.c_entity.GetType().GetProperties(), _objectProperty =>
+            // BS: TODO: This will go into the chain
+            var _configuration = NHibernateProfiler.Profiler.GetConfigurationObject;
+
+            foreach (var _resolvedParameterName in _resolvedParameterNames)
+            {
+                foreach (var _classMapping in _configuration.ClassMappings)
+	            {
+                    if (_classMapping.Table.Name == _resolvedParameterName.TableName)
+                    {
+                        if (_classMapping.Key.ToString().Contains("(" + _resolvedParameterName.TableColumnName + ")"))
                         {
-                            if (_objectProperty.Name == _resolvedParameterName)
+                            _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
                             {
-                                _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
+                                Id = Guid.NewGuid(),
+                                PreparedStatementId = preparedStatementId,
+                                TableName = _resolvedParameterName.TableName,
+                                ColumnName = _resolvedParameterName.TableColumnName,
+                                EntityName = _classMapping.MappedClass.FullName,
+                                EntityValue = "",
+                                PropertyName = _classMapping.IdentifierProperty.Name
+                            });
+                        }
+                        else
+                        {
+                            foreach (var _property in _classMapping.PropertyIterator)
+                            {
+                                var _name = _property.Name;
+                                var _value = _property.Value;
+                                var temp = _value.ToString();
+
+                                if (_property.Value.ToString().Contains("(" + _resolvedParameterName.TableColumnName + ")"))
                                 {
-                                    Id = Guid.NewGuid(),
-                                    PreparedStatementId = preparedStatementId,
-                                    Name = _objectProperty.Name,
-                                    Value = _objectProperty.GetValue(this.c_entity, null).ToString()
-                                });
+                                    _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        PreparedStatementId = preparedStatementId,
+                                        TableName = _resolvedParameterName.TableName,
+                                        ColumnName = _resolvedParameterName.TableColumnName,
+                                        EntityName = _classMapping.MappedClass.FullName,
+                                        EntityValue = "?",
+                                        PropertyName = _property.Name
+                                    });
+                                }
                             }
-                        });
-                });
+                        }
+                    }
+	            }
+            }
 
             return _result;
+        }
+
+
+        private void PopulateValuesForPreparedStatements(
+            List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> preparedStatements)
+        {
+            preparedStatements.ForEach(preparedStatement => {
+                Array.ForEach(this.c_entity.GetType().GetProperties(), property => { 
+                    if(property.Name == preparedStatement.PropertyName)
+                    {
+                        preparedStatement.EntityValue = property.GetValue(this.c_entity, null).ToString();
+                    }
+                });
+            });
         }
     }
 }

@@ -5,7 +5,10 @@
       <generator class="assigned"></generator>
     </id>
     <property name="PreparedStatementId" not-null="true" />
-    <property name="Name" not-null="false"/>
-    <property name="Value" not-null="false"/>
+    <property name="TableName" not-null="true" />
+    <property name="ColumnName" not-null="false"/>
+    <property name="EntityName" not-null="false"/>
+    <property name="PropertyName" not-null="false"/>
+    <property name="EntityValue" not-null="false"/>
   </class>
 </hibernate-mapping>

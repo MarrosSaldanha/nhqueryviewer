@@ -15,7 +15,7 @@ namespace NHibernateProfiler.PreparedStatementParameter
         /// </summary>
         /// <param name="sqlParts">Sql parts</param>
         /// <returns></returns>
-        List<string> ResolveParameters(
+        List<NHibernateProfiler.Common.Entity.DatabaseInfo> ResolveParameters(
             string[] subject);
     }
 }

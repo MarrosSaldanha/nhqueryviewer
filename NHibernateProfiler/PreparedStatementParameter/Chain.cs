@@ -38,6 +38,7 @@ namespace NHibernateProfiler.PreparedStatementParameter
 
             this.c_parserCache = new List<NHibernateProfiler.PreparedStatementParameter.IParser>();
 
+            // TODO: BS 25/01/2010 Can use Castle to register these interfaces (AlTypes....)
             // Get candidate filter, which will give all types that implement IParser interface
 			_candidateFilter = candidateType => candidateType.GetInterfaces().FirstOrDefault(
 				candidateTypeInterface =>
@@ -59,14 +60,17 @@ namespace NHibernateProfiler.PreparedStatementParameter
         /// </summary>
         /// <param name="sqlParts">sql parts</param>
         /// <returns></returns>
-        public List<string> ResolveParameters(
+        public List<NHibernateProfiler.Common.Entity.DatabaseInfo> ResolveParameters(
             string[] subject)
         {
-            var _parameterNames = new List<string>();
+            var _parameterNames = new List<NHibernateProfiler.Common.Entity.DatabaseInfo>();
 
             foreach (var _parser in this.c_parserCache)
             {
-                if (_parser.MustParse(subject)) { _parameterNames.AddRange(_parser.GetParameterNames(subject)); }
+                if (_parser.MustParse(subject)) 
+                {
+                    _parameterNames.AddRange(_parser.GetParameterNames(subject));
+                };
             }
 
             return _parameterNames;

@@ -48,7 +48,7 @@ namespace SampleNHibernateTestApp
             using (var _session = this.c_sessionFactory.OpenSession())
             {
                 return _session.CreateCriteria(typeof(SampleNHibernateTestApp.Customer))
-               .Add(NHibernate.Criterion.Expression.Eq("Id", id))
+               .Add(NHibernate.Criterion.Expression.Eq("TheId", id))
                .UniqueResult<SampleNHibernateTestApp.Customer>();
             }
         }
@@ -83,6 +83,5 @@ namespace SampleNHibernateTestApp
                 _session.Flush();
             }
         }
-
     }
 }

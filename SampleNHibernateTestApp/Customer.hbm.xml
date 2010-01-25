@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="SampleNHibernateTestApp" namespace="SampleNHibernateTestApp">
   <class name="SampleNHibernateTestApp.Customer, SampleNHibernateTestApp"  table="BasicXMLMapping_Customer" lazy="false">
-    <id name="Id" column="Id">
+    <id name="TheId" column="Id">
       <generator class="guid"></generator>
     </id>
-    <property name="FirstName" type="string" length="50" not-null="false"/>
+    <property name="FName" column ="FirstName" type="string" length="50" not-null="false"/>
     <property name="LastName" type="string" length="50" not-null="false"/>
     <property name="Age" />
+    <component name="CreationAttribute" class="SampleNHibernateTestApp.ModificationAttribute, SampleNHibernateTestApp">
+      <property name="By" column="CreatedBy" type="string" />
+      <property name="Timestamp" column="CreationTimestamp" type="datetime" />
+    </component>
+    <bag name="Items" table="BasicXMLMapping_Item" cascade="all">
+      <key column="CustomerId" />
+      <one-to-many class="SampleNHibernateTestApp.Item, SampleNHibernateTestApp" />
+    </bag>
   </class>
 </hibernate-mapping>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="SampleNHibernateTestApp" namespace="SampleNHibernateTestApp">
+  <class name="SampleNHibernateTestApp.Item, SampleNHibernateTestApp"  table="BasicXMLMapping_Item" lazy="false">
+    <id name="Id" column="Id">
+      <generator class="guid"></generator>
+    </id>
+    <property name="CustomerId" type="Guid" />
+    <property name="FName" column ="FirstName" type="string" length="50" not-null="false"/>
+    <property name="LastName" type="string" length="50" not-null="false"/>
+    <property name="Age" />
+  </class>
+</hibernate-mapping>

@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NHibernateProfiler.Common\NHibernateProfiler.Common.csproj">
+      <Project>{E6205B9D-7CD6-46F3-8793-B901F70AA695}</Project>
+      <Name>NHibernateProfiler.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NHibernateProfiler\NHibernateProfiler.csproj">
       <Project>{5EF0F208-9BC5-42DE-B0AD-6680B0A8F9C1}</Project>
       <Name>NHibernateProfiler</Name>

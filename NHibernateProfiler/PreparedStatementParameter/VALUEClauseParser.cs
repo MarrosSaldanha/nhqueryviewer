@@ -28,9 +28,9 @@ namespace NHibernateProfiler.PreparedStatementParameter
         /// </summary>
         /// <param name="sqlParts"></param>
         /// <returns></returns>
-        public List<string> GetParameterNames(string[] sqlParts)
+        public List<NHibernateProfiler.Common.Entity.DatabaseInfo> GetParameterNames(string[] sqlParts)
         {
-            var _result = new List<string>();
+            var _result = new List<NHibernateProfiler.Common.Entity.DatabaseInfo>();
             var _endBracketEncountered = false;
             var sqlPartsIndex = 2;
 
@@ -39,7 +39,10 @@ namespace NHibernateProfiler.PreparedStatementParameter
                 sqlPartsIndex++;
 
                 if (sqlParts[sqlPartsIndex] == ") VALUES (") { _endBracketEncountered = true; }
-                else if (sqlParts[sqlPartsIndex] != ", ") { _result.Add(sqlParts[sqlPartsIndex]); }
+                else if (sqlParts[sqlPartsIndex] != ", ") { _result.Add(
+                    new NHibernateProfiler.Common.Entity.DatabaseInfo { 
+                        TableName = sqlParts[1], 
+                        TableColumnName = sqlParts[sqlPartsIndex] } ); }
             }
 
             return _result;

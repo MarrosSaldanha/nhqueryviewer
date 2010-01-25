@@ -25,12 +25,13 @@ namespace SampleNHibernateTestApp
         public void Save_Good()
         {
             var _newCustomer = new Customer();
-            _newCustomer.FirstName = "Billy";
+            _newCustomer.FName = "Billy";
             _newCustomer.LastName = "Stack";
+            _newCustomer.CreationAttribute = new ModificationAttribute("BILLY", DateTime.Now.AddDays(-2.0));
 
             this.c_repository.SaveCustomer(_newCustomer);
 
-            Assert.NotNull(this.c_repository.GetById(_newCustomer.Id));
+            Assert.NotNull(this.c_repository.GetById(_newCustomer.TheId));
         }
 
 
@@ -47,18 +48,39 @@ namespace SampleNHibernateTestApp
         [Fact]
         public void GetById_Good()
         {
-            this.c_insertedCustomerId = this.c_repository.GetAll()[0].Id;
+            this.c_insertedCustomerId = this.c_repository.GetAll()[0].TheId;
 
             var _expectedCustomer = new SampleNHibernateTestApp.Customer();
-            _expectedCustomer.Id = this.c_insertedCustomerId;
-            _expectedCustomer.FirstName = "Billy";
+            _expectedCustomer.TheId = this.c_insertedCustomerId;
+            _expectedCustomer.FName = "Billy";
             _expectedCustomer.LastName = "Stack";
+            _expectedCustomer.CreationAttribute = new SampleNHibernateTestApp.ModificationAttribute("BILLY", DateTime.UtcNow);
 
             var _actualCustomer = this.c_repository.GetById(c_insertedCustomerId);
 
             Assert.NotNull(_actualCustomer);
-            Assert.Equal(_expectedCustomer.Id, _actualCustomer.Id);
-            Assert.Equal(_expectedCustomer.FirstName, _actualCustomer.FirstName);
+            Assert.Equal(_expectedCustomer.TheId, _actualCustomer.TheId);
+            Assert.Equal(_expectedCustomer.FName, _actualCustomer.FName);
+            Assert.Equal(_expectedCustomer.LastName, _actualCustomer.LastName);
+        }
+
+
+        [Fact]
+        public void GetByIdAndLatestDate_Good()
+        {
+            this.c_insertedCustomerId = this.c_repository.GetAll()[0].TheId;
+
+            var _expectedCustomer = new SampleNHibernateTestApp.Customer();
+            _expectedCustomer.TheId = this.c_insertedCustomerId;
+            _expectedCustomer.FName = "Billy";
+            _expectedCustomer.LastName = "Stack";
+            _expectedCustomer.CreationAttribute = new SampleNHibernateTestApp.ModificationAttribute("BILLY", DateTime.UtcNow);
+
+            var _actualCustomer = this.c_repository.GetById(c_insertedCustomerId);
+
+            Assert.NotNull(_actualCustomer);
+            Assert.Equal(_expectedCustomer.TheId, _actualCustomer.TheId);
+            Assert.Equal(_expectedCustomer.FName, _actualCustomer.FName);
             Assert.Equal(_expectedCustomer.LastName, _actualCustomer.LastName);
         }
 

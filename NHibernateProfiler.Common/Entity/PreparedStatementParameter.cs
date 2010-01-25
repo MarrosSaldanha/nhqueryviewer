@@ -22,11 +22,26 @@ namespace NHibernateProfiler.Common.Entity
         /// <summary>
         /// Name
         /// </summary>
-        public string Name { get; set; }
+        public string TableName { get; set; }
+        
+        /// <summary>
+        /// Name
+        /// </summary>
+        public string ColumnName { get; set; }
 
         /// <summary>
-        /// Value
+        /// Name
         /// </summary>
-        public string Value { get; set; }
+        public string EntityName { get; set; }
+
+        /// <summary>
+        /// Name
+        /// </summary>
+        public string PropertyName { get; set; }
+
+        /// <summary>
+        /// Name
+        /// </summary>
+        public string EntityValue { get; set; }
     }
 }

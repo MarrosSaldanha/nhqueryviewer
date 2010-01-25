@@ -22,6 +22,6 @@ namespace NHibernateProfiler.PreparedStatementParameter
         /// </summary>
         /// <param name="sqlParts"></param>
         /// <returns></returns>
-        List<string> GetParameterNames(string[] sqlParts);
+        List<NHibernateProfiler.Common.Entity.DatabaseInfo> GetParameterNames(string[] sqlParts);
     }
 }
