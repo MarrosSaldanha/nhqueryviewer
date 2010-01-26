@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 
 
-namespace NHibernateProfiler.PreparedStatementParameter
+namespace NHibernateProfiler.PreparedStatementParameter.Parser
 {
     /// <summary>
     /// bstack @ 17/01/2010
     /// Prepared statement parameter WHERE clause parser
     /// </summary>
-    public class WHEREClauseParser : NHibernateProfiler.PreparedStatementParameter.IParser
+    public class WHEREClause :
+        NHibernateProfiler.PreparedStatementParameter.Parser.Base,
+        NHibernateProfiler.PreparedStatementParameter.Parser.IParser
     {
         /// <summary>
         /// Must parse
         /// </summary>
         /// <param name="sqlParts">sqlParts</param>
+        /// <param name="parameters">Parameters, not used for this must parse test</param>
         /// <returns></returns>
-        public bool MustParse(string[] sqlParts)
+        public override bool MustParse(
+            string[] sqlParts,
+            List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> parameters)
         {
             var _parametersExist = false;
 
@@ -28,13 +33,16 @@ namespace NHibernateProfiler.PreparedStatementParameter
 
 
         /// <summary>
-        /// Get parameters
+        /// Parse
         /// </summary>
-        /// <param name="sqlParts"></param>
+        /// <param name="sqlParts">sqlParts</param>
+        /// <param name="parameters">Parameters</param>
         /// <returns></returns>
-        public List<NHibernateProfiler.Common.Entity.DatabaseInfo> GetParameterNames(string[] sqlParts)
+        public override List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> Parse(
+            string[] sqlParts,
+            List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> parameters)
         {
-            var _result = new List<NHibernateProfiler.Common.Entity.DatabaseInfo>();
+            var _result = new List<NHibernateProfiler.Common.Entity.PreparedStatementParameter>();
 
             for (var _i = 0; _i < sqlParts.Length; _i++)
             {
@@ -51,9 +59,9 @@ namespace NHibernateProfiler.PreparedStatementParameter
 
                     var _tableName = this.GetTableName(sqlParts, _tableAlias);
 
-                    _result.Add(new NHibernateProfiler.Common.Entity.DatabaseInfo() { 
+                    _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter() {  
                         TableName =  _tableName, 
-                        TableColumnName = _tableColumnName } );
+                        ColumnName = _tableColumnName } );
                 }
             }
 
@@ -61,7 +69,15 @@ namespace NHibernateProfiler.PreparedStatementParameter
         }
 
 
-        private string GetTableName(string[] sqlParts, string alias)
+        /// <summary>
+        /// Get table name
+        /// </summary>
+        /// <param name="sqlParts">sqlParts</param>
+        /// <param name="alias">Alias</param>
+        /// <returns></returns>
+        private string GetTableName(
+            string[] sqlParts, 
+            string alias)
         {
             string _result = null;
 

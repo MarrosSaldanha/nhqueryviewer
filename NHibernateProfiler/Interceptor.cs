@@ -138,61 +138,9 @@ namespace NHibernateProfiler
             NHibernate.SqlCommand.SqlString sql,
             Guid preparedStatementId)
         {
-            var _result = new List<NHibernateProfiler.Common.Entity.PreparedStatementParameter>();
             var _sqlPartsAsStringArray = this.ConvertSqlPartsToStringArray(sql);
 
-            var _resolvedParameterNames = this.c_chain.ResolveParameters(_sqlPartsAsStringArray);
-
-            // BS: TODO: This will go into the chain
-            var _configuration = NHibernateProfiler.Profiler.GetConfigurationObject;
-
-            foreach (var _resolvedParameterName in _resolvedParameterNames)
-            {
-                foreach (var _classMapping in _configuration.ClassMappings)
-	            {
-                    if (_classMapping.Table.Name == _resolvedParameterName.TableName)
-                    {
-                        if (_classMapping.Key.ToString().Contains("(" + _resolvedParameterName.TableColumnName + ")"))
-                        {
-                            _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
-                            {
-                                Id = Guid.NewGuid(),
-                                PreparedStatementId = preparedStatementId,
-                                TableName = _resolvedParameterName.TableName,
-                                ColumnName = _resolvedParameterName.TableColumnName,
-                                EntityName = _classMapping.MappedClass.FullName,
-                                EntityValue = "",
-                                PropertyName = _classMapping.IdentifierProperty.Name
-                            });
-                        }
-                        else
-                        {
-                            foreach (var _property in _classMapping.PropertyIterator)
-                            {
-                                var _name = _property.Name;
-                                var _value = _property.Value;
-                                var temp = _value.ToString();
-
-                                if (_property.Value.ToString().Contains("(" + _resolvedParameterName.TableColumnName + ")"))
-                                {
-                                    _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        PreparedStatementId = preparedStatementId,
-                                        TableName = _resolvedParameterName.TableName,
-                                        ColumnName = _resolvedParameterName.TableColumnName,
-                                        EntityName = _classMapping.MappedClass.FullName,
-                                        EntityValue = "?",
-                                        PropertyName = _property.Name
-                                    });
-                                }
-                            }
-                        }
-                    }
-	            }
-            }
-
-            return _result;
+            return this.c_chain.ResolveParameters(_sqlPartsAsStringArray);
         }
 
 

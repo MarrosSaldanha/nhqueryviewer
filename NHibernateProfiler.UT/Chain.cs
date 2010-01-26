@@ -20,9 +20,9 @@ namespace NHibernateProfiler.UT
             Assert.NotNull(_chain.ParserCache);
             Assert.True(_chain.ParserCache.Count == 2);
             Assert.NotNull(_chain.ParserCache.FirstOrDefault(parser => parser.GetType() 
-                == typeof(NHibernateProfiler.PreparedStatementParameter.VALUEClauseParser)));
+                == typeof(NHibernateProfiler.PreparedStatementParameter.Parser.VALUEClause)));
             Assert.NotNull(_chain.ParserCache.FirstOrDefault(parser => parser.GetType()
-                == typeof(NHibernateProfiler.PreparedStatementParameter.WHEREClauseParser)));
+                == typeof(NHibernateProfiler.PreparedStatementParameter.Parser.WHEREClause)));
         }
 
 

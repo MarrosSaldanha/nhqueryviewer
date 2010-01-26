@@ -66,9 +66,11 @@
     <Compile Include="IProfiler.cs" />
     <Compile Include="PreparedStatementParameter\Chain.cs" />
     <Compile Include="PreparedStatementParameter\IChain.cs" />
-    <Compile Include="PreparedStatementParameter\IParser.cs" />
-    <Compile Include="PreparedStatementParameter\VALUEClauseParser.cs" />
-    <Compile Include="PreparedStatementParameter\WHEREClauseParser.cs" />
+    <Compile Include="PreparedStatementParameter\Parser\Base.cs" />
+    <Compile Include="PreparedStatementParameter\Parser\NHConfiguration.cs" />
+    <Compile Include="PreparedStatementParameter\Parser\IParser.cs" />
+    <Compile Include="PreparedStatementParameter\Parser\VALUEClause.cs" />
+    <Compile Include="PreparedStatementParameter\Parser\WHEREClause.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
