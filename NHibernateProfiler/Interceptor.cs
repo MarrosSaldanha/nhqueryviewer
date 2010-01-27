@@ -13,6 +13,7 @@ namespace NHibernateProfiler
     {
         private readonly NHibernateProfiler.Common.IRepository c_repository;
         private readonly NHibernateProfiler.PreparedStatementParameter.IChain c_chain;
+		private readonly NHibernateProfiler.PreparedStatementParameter.Value.IPopulater c_valuePopulater;
 
         private object c_entity;
 
@@ -24,10 +25,12 @@ namespace NHibernateProfiler
         /// <param name="chain">Chain of prepared statement parameter parsers</param>
         public Interceptor(
             NHibernateProfiler.Common.IRepository repository,
-            NHibernateProfiler.PreparedStatementParameter.IChain chain)
+            NHibernateProfiler.PreparedStatementParameter.IChain chain,
+            NHibernateProfiler.PreparedStatementParameter.Value.IPopulater valuePopulater)
         {
             this.c_repository = repository;
             this.c_chain = chain;
+			this.c_valuePopulater = valuePopulater;
         }
  
 
@@ -39,17 +42,19 @@ namespace NHibernateProfiler
         public override NHibernate.SqlCommand.SqlString OnPrepareStatement(
             NHibernate.SqlCommand.SqlString sql)
         {
-            var temp = "";
-            foreach(var part in sql.Parts)
-            {
-                temp += "\"" + part.ToString() + "\",";
-            }
+			// TODO: BS 27/01/2010 This is temporary
+			//var temp = "";
+			//foreach(var part in sql.Parts)
+			//{
+			//    temp += "\"" + part.ToString() + "\",";
+			//}
 
-            
+			// TODO: BS 27/01/2010 All of this should be moved to a wf
             var _sqlString =  base.OnPrepareStatement(sql);
             var _preparedStatementId = Guid.NewGuid();
-            var _preparedStatements = this.GetParametersIfAnyExist(sql, _preparedStatementId);
-            this.PopulateValuesForPreparedStatements(_preparedStatements);
+			var _sqlPartsAsStringArray = this.ConvertSqlPartsToStringArray(sql);
+			var _preparedStatements = this.c_chain.ResolveParameters(_sqlPartsAsStringArray);
+            this.c_valuePopulater.PopulateValues(_preparedStatements, this.c_entity, _preparedStatementId);
 
             var _preparedStatement = new NHibernateProfiler.Common.Entity.PreparedStatement()
             {
@@ -127,34 +132,6 @@ namespace NHibernateProfiler
             }
 
             return _sqlPartsAsStringArray;
-        }
-
-
-        /// <summary>
-        /// Get parameters if any exist
-        /// </summary>
-        /// <param name="sql"></param>
-        private List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> GetParametersIfAnyExist(
-            NHibernate.SqlCommand.SqlString sql,
-            Guid preparedStatementId)
-        {
-            var _sqlPartsAsStringArray = this.ConvertSqlPartsToStringArray(sql);
-
-            return this.c_chain.ResolveParameters(_sqlPartsAsStringArray);
-        }
-
-
-        private void PopulateValuesForPreparedStatements(
-            List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> preparedStatements)
-        {
-            preparedStatements.ForEach(preparedStatement => {
-                Array.ForEach(this.c_entity.GetType().GetProperties(), property => { 
-                    if(property.Name == preparedStatement.PropertyName)
-                    {
-                        preparedStatement.EntityValue = property.GetValue(this.c_entity, null).ToString();
-                    }
-                });
-            });
         }
     }
 }

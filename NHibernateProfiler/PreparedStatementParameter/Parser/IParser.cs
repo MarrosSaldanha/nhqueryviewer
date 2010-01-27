@@ -10,10 +10,10 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
     /// </summary>
     public interface IParser
     {
-        /// <summary>
-        /// Order
-        /// </summary>
-        int Order { get; set; }
+		/// <summary>
+		/// Next
+		/// </summary>
+		NHibernateProfiler.PreparedStatementParameter.Parser.IParser Next { get; }
 
         /// <summary>
         /// Must parse

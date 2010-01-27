@@ -11,10 +11,10 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
     /// </summary>
     public abstract class Base
     {
-        /// <summary>
-        /// Order
-        /// </summary>
-        public int Order { get; set; }
+		/// <summary>
+		/// Next
+		/// </summary>
+		public NHibernateProfiler.PreparedStatementParameter.Parser.IParser Next { get; set; }
 
         /// <summary>
         /// Must parse

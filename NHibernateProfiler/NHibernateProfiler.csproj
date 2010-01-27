@@ -65,6 +65,8 @@
     <Compile Include="Interceptor.cs" />
     <Compile Include="IProfiler.cs" />
     <Compile Include="PreparedStatementParameter\Chain.cs" />
+    <Compile Include="PreparedStatementParameter\Value\Populater.cs" />
+    <Compile Include="PreparedStatementParameter\Value\IPopulater.cs" />
     <Compile Include="PreparedStatementParameter\IChain.cs" />
     <Compile Include="PreparedStatementParameter\Parser\Base.cs" />
     <Compile Include="PreparedStatementParameter\Parser\NHConfiguration.cs" />

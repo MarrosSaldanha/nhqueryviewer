@@ -50,7 +50,6 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
                         if (_classMapping.Key.ToString().Contains("(" + parameter.ColumnName + ")"))
                         {
                             parameter.Id = Guid.NewGuid();
-                            //PreparedStatementId = preparedStatementId,
                             parameter.EntityName = _classMapping.MappedClass.FullName;
                             parameter.EntityValue = "";
                             parameter.PropertyName = _classMapping.IdentifierProperty.Name;
@@ -67,7 +66,7 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
                                     //PreparedStatementId = preparedStatementId,
                                     parameter.EntityName = _classMapping.MappedClass.FullName;
                                     parameter.EntityValue = "";
-                                    parameter.PropertyName = _classMapping.IdentifierProperty.Name;
+									parameter.PropertyName = _property.Name;
 
                                     _result.Add(parameter);
                                 }

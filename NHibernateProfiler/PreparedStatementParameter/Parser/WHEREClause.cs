@@ -59,7 +59,7 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
 
                     var _tableName = this.GetTableName(sqlParts, _tableAlias);
 
-                    _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter() {  
+                    _result.Add(new NHibernateProfiler.Common.Entity.PreparedStatementParameter() {
                         TableName =  _tableName, 
                         ColumnName = _tableColumnName } );
                 }

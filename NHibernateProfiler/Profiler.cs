@@ -42,7 +42,8 @@ namespace NHibernateProfiler
                     new NHibernateProfiler.Interceptor(
                         new NHibernateProfiler.Common.Repository(
                             this.CreateSessionFactoryFromNonDefaultConfiguration(@"D:\Temp\hibernate.cfg.xml")),
-                        new NHibernateProfiler.PreparedStatementParameter.Chain()));
+                        new NHibernateProfiler.PreparedStatementParameter.Chain(),
+                        new NHibernateProfiler.PreparedStatementParameter.Value.Populater()));
 
             }
 

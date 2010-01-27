@@ -49,7 +49,7 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
                 if (sqlParts[sqlPartsIndex] == ") VALUES (") { _endBracketEncountered = true; }
                 else if (sqlParts[sqlPartsIndex] != ", ") { _result.Add(
                     new NHibernateProfiler.Common.Entity.PreparedStatementParameter()
-                    { 
+                    {
                         TableName = sqlParts[1], 
                         ColumnName = sqlParts[sqlPartsIndex] } ); }
             }
