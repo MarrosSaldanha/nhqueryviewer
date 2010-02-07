@@ -21,9 +21,22 @@ namespace NHibernateProfiler.PreparedStatementParameter
         /// </summary>
         public LinkedList<NHibernateProfiler.PreparedStatementParameter.Parser.IParser> ParserCache { get { return this.c_parserCache; } }
 
-        
+
+
 		/// <summary>
-		/// Ctor, populates cache using reflection
+		/// Ctor
+		/// </summary>
+		/// <param name="parserCache">Parser cache</param>
+		public Chain(
+			LinkedList<NHibernateProfiler.PreparedStatementParameter.Parser.IParser> parserCache)
+		{
+			// Build linked list
+			this.c_parserCache = parserCache;
+		}
+
+
+		/// <summary>
+		/// Ctor
 		/// </summary>
 		public Chain()
 		{

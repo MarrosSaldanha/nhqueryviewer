@@ -1,6 +1,8 @@
-﻿using System;
-using Xunit;
+﻿using Rhino.Mocks;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 
 
 namespace NHibernateProfiler.UT
@@ -11,61 +13,105 @@ namespace NHibernateProfiler.UT
     /// </summary>
     public class Chain
     {
-        [Fact]
-        public void Ctor_Valid()
-        {
-            var _chain = new NHibernateProfiler.PreparedStatementParameter.Chain();
+		private readonly MockRepository c_mockRepository;
 
+
+		/// <summary>
+		/// Ctor
+		/// </summary>
+		public Chain()
+		{
+			this.c_mockRepository = new MockRepository();
+		}
+
+
+        [Fact]
+		public void Ctor_Valid_Demonstrate_One_Parser_Call_One_Parser_No_Call()
+        {
+			// Arrange
+			var _chain = this.BuildChain();
+			using (this.c_mockRepository.Record())
+			{
+				Expect.Call(_chain.ParserCache.First.Value.MustParse(null, null)).IgnoreArguments().Return(true);
+				Expect.Call(_chain.ParserCache.First.Value.Parse(null, null)).IgnoreArguments().Return(null);
+				Expect.Call(_chain.ParserCache.First.Next.Value.MustParse(null, null)).IgnoreArguments().Return(false);
+			}
+
+			// Act
+			using (this.c_mockRepository.Playback())
+			{
+				_chain.ResolveParameters(new string[] { "asdasdads", "sddfsfsf", "dffggdgd" });
+			}
+			
+			// Assert
             Assert.NotNull(_chain);
             Assert.NotNull(_chain.ParserCache);
             Assert.True(_chain.ParserCache.Count == 2);
-            Assert.NotNull(_chain.ParserCache.FirstOrDefault(parser => parser.GetType() 
-                == typeof(NHibernateProfiler.PreparedStatementParameter.Parser.VALUEClause)));
-            Assert.NotNull(_chain.ParserCache.FirstOrDefault(parser => parser.GetType()
-                == typeof(NHibernateProfiler.PreparedStatementParameter.Parser.WHEREClause)));
         }
 
 
-        [Fact]
-        public void ResolveParameters_Yes_For_Sql_Insert()
-        {
-            var _chain = new NHibernateProfiler.PreparedStatementParameter.Chain();
-            var _insertSQLAsArray = NHibernateProfiler.UT.Factory.SqlString.ConvertSqlPartsToStringArray(
-                NHibernateProfiler.UT.Factory.SqlString.Insert);
+		[Fact]
+		public void Ctor_Valid_Demonstrate_Two_Parser_Call()
+		{
+			// Arrange
+			var _chain = this.BuildChain();
+			using (this.c_mockRepository.Record())
+			{
+				Expect.Call(_chain.ParserCache.First.Value.MustParse(null, null)).IgnoreArguments().Return(true);
+				Expect.Call(_chain.ParserCache.First.Value.Parse(null, null)).IgnoreArguments().Return(null);
+				Expect.Call(_chain.ParserCache.First.Next.Value.MustParse(null, null)).IgnoreArguments().Return(true);
+				Expect.Call(_chain.ParserCache.First.Next.Value.Parse(null, null)).IgnoreArguments().Return(null);
+			}
 
-            var _resolvedParameterNames = _chain.ResolveParameters(_insertSQLAsArray);
+			// Act
+			using (this.c_mockRepository.Playback())
+			{
+				_chain.ResolveParameters(new string[] { "asdasdads", "sddfsfsf", "dffggdgd" });
+			}
 
-            Assert.NotNull(_resolvedParameterNames);
-            Assert.True(_resolvedParameterNames.Count == 4);
-        }
-
-
-        [Fact]
-        public void ResolveParameters_Yes_For_Sql_Select()
-        {
-            var _chain = new NHibernateProfiler.PreparedStatementParameter.Chain();
-            var _selectSQLAsArray = NHibernateProfiler.UT.Factory.SqlString.ConvertSqlPartsToStringArray(
-                NHibernateProfiler.UT.Factory.SqlString.Select);
-
-            var _resolvedParameterNames = _chain.ResolveParameters(_selectSQLAsArray);
-
-            Assert.NotNull(_resolvedParameterNames);
-            Assert.True(_resolvedParameterNames.Count == 0);
-        }
+			// Assert
+			Assert.NotNull(_chain);
+			Assert.NotNull(_chain.ParserCache);
+			Assert.True(_chain.ParserCache.Count == 2);
+		}
 
 
-        [Fact(Skip = "Need to soft out the deletion of this. string")]
-        public void ResolveParameters_Yes_For_Sql_Select_With_Where_Clause()
-        {
-            var _chain = new NHibernateProfiler.PreparedStatementParameter.Chain();
-            var _selectSQLAsArray = NHibernateProfiler.UT.Factory.SqlString.ConvertSqlPartsToStringArray(
-                NHibernateProfiler.UT.Factory.SqlString.SelectWithWhereClauseParameters);
+		[Fact]
+		public void Ctor_Valid_Demonstrate_No_Call()
+		{
+			// Arrange
+			var _chain = this.BuildChain();
+			using (this.c_mockRepository.Record())
+			{
+				Expect.Call(_chain.ParserCache.First.Value.MustParse(null, null)).IgnoreArguments().Return(false);
+				Expect.Call(_chain.ParserCache.First.Next.Value.MustParse(null, null)).IgnoreArguments().Return(false);
+			}
 
-            var _resolvedParameterNames = _chain.ResolveParameters(_selectSQLAsArray);
+			// Act
+			using (this.c_mockRepository.Playback())
+			{
+				_chain.ResolveParameters(new string[] { "asdasdads", "sddfsfsf", "dffggdgd" });
+			}
 
-            Assert.NotNull(_resolvedParameterNames);
-            Assert.True(_resolvedParameterNames.Count == 1);
-            //Assert.True(_resolvedParameterNames.Contains("Id"));
-        }
+			// Assert
+			Assert.NotNull(_chain);
+			Assert.NotNull(_chain.ParserCache);
+			Assert.True(_chain.ParserCache.Count == 2);
+		}
+
+
+		/// <summary>
+		/// Build chain
+		/// </summary>
+		/// <returns>Mocked up chain</returns>
+		public NHibernateProfiler.PreparedStatementParameter.Chain BuildChain()
+		{
+			var _parserCache = new LinkedList<NHibernateProfiler.PreparedStatementParameter.Parser.IParser>();
+
+			_parserCache.AddFirst(this.c_mockRepository.StrictMock<NHibernateProfiler.PreparedStatementParameter.Parser.IParser>());
+			_parserCache.AddLast(this.c_mockRepository.StrictMock<NHibernateProfiler.PreparedStatementParameter.Parser.IParser>());
+			
+			return new NHibernateProfiler.PreparedStatementParameter.Chain(_parserCache);
+		}
     }
 }

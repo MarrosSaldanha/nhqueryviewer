@@ -22,6 +22,8 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
             string[] sqlParts,
             List<NHibernateProfiler.Common.Entity.PreparedStatementParameter> parameters)
         {
+			if (sqlParts == null) throw new ArgumentException();
+
             var _parametersExist = false;
 
             Array.ForEach(sqlParts, sqlPart => { if(sqlPart == "?") { _parametersExist = true; }});
