@@ -22,9 +22,25 @@ namespace NHibernateProfiler.PreparedStatementParameter.Value
                 Array.ForEach(entityToGetValueFrom.GetType().GetProperties(), property =>
                 {
 					if (property.Name == preparedStatementParameter.PropertyName)
-                    {
+					{
 						preparedStatementParameter.EntityValue = property.GetValue(entityToGetValueFrom, null).ToString();
-                    }
+					}
+					else
+					{
+						var _componentProperty =  property.GetValue(entityToGetValueFrom, null);
+
+						if (_componentProperty != null)
+						{
+							Array.ForEach(_componentProperty.GetType().GetProperties(), innerComponentProperty =>
+							{
+								if (innerComponentProperty.Name == preparedStatementParameter.PropertyName)
+								{
+									preparedStatementParameter.EntityValue = innerComponentProperty.GetValue(_componentProperty, null).ToString();
+
+								}
+							});
+						}
+					}
                 });
             });
         }

@@ -60,16 +60,38 @@ namespace NHibernateProfiler.PreparedStatementParameter.Parser
                         {
                             foreach (var _property in _classMapping.PropertyIterator)
                             {
-                                if (_property.Value.ToString().Contains("(" + parameter.ColumnName + ")"))
-                                {
-                                    parameter.Id = Guid.NewGuid();
-                                    //PreparedStatementId = preparedStatementId,
-                                    parameter.EntityName = _classMapping.MappedClass.FullName;
-                                    parameter.EntityValue = "";
-									parameter.PropertyName = _property.Name;
+								if (_property.Value.ToString().StartsWith("NHibernate.Mapping.SimpleValue"))
+								{
+									if (_property.Value.ToString().Contains("(" + parameter.ColumnName + ")"))
+									{
+										parameter.Id = Guid.NewGuid();
+										//PreparedStatementId = preparedStatementId,
+										parameter.EntityName = _classMapping.MappedClass.FullName;
+										parameter.EntityValue = "";
+										parameter.PropertyName = _property.Name;
 
-                                    _result.Add(parameter);
-                                }
+										_result.Add(parameter);
+									}
+								}
+
+								if (_property.Value.ToString().StartsWith("NHibernate.Mapping.Component"))
+								{
+									var _component = (NHibernate.Mapping.Component) _property.Value;
+
+									foreach (var _componentProperty in _component.PropertyIterator)
+									{
+										if (_componentProperty.Value.ToString().Contains("(" + parameter.ColumnName + ")"))
+										{
+											parameter.Id = Guid.NewGuid();
+											//PreparedStatementId = preparedStatementId,
+											parameter.EntityName = _classMapping.MappedClass.FullName;
+											parameter.EntityValue = "";
+											parameter.PropertyName = _componentProperty.Name;
+
+											_result.Add(parameter);
+										}
+									}
+								}
                             }
                         }
                     }

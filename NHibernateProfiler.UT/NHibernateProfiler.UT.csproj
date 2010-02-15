@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="Chain.cs" />
     <Compile Include="Factory\SqlString.cs" />
-    <Compile Include="PreparedStatementParameter\VALUEClause.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
