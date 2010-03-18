@@ -25,6 +25,24 @@ namespace NHibernateProfiler.Common
         }
 
 
+		/// <summary>
+		/// Save session factory statistics
+		/// </summary>
+		/// <param name="subject"></param>
+		public void SaveSessionFactoryStatistics(
+			NHibernateProfiler.Common.Entity.Statistics.SessionFactory subject)
+		{
+			using (var _session = this.c_sessionFactory.OpenSession())
+			{
+				using (var _transaction = _session.BeginTransaction())
+				{
+					_session.SaveOrUpdate(subject);
+					_transaction.Commit();
+				}
+			}
+		}
+
+
         /// <summary>
         /// Save prepared statement
         /// </summary>
@@ -34,22 +52,11 @@ namespace NHibernateProfiler.Common
         {
             using (var _session = this.c_sessionFactory.OpenSession())
             {
-                _session.Save(subject);
-                _session.Flush();
-            }
-        }
-
-
-        /// <summary>
-        /// Get prepared statements
-        /// </summary>
-        /// <param name="subject">Sql string</param>
-        public IList<NHibernateProfiler.Common.Entity.PreparedStatement> GetPreparedStatements()
-        {
-            using (ISession _session = this.c_sessionFactory.OpenSession())
-            {
-                return _session.CreateCriteria(typeof(NHibernateProfiler.Common.Entity.PreparedStatement))
-                    .List<NHibernateProfiler.Common.Entity.PreparedStatement>();
+				using (var _transaction = _session.BeginTransaction())
+				{
+					_session.Save(subject);
+					_transaction.Commit();
+				}
             }
         }
     }

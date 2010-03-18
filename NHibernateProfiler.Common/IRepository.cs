@@ -9,6 +9,14 @@ namespace NHibernateProfiler.Common
     /// </summary>
     public interface IRepository
     {
+		/// <summary>
+		/// Save session factory statistics
+		/// </summary>
+		/// <param name="subject"></param>
+		void SaveSessionFactoryStatistics(
+			NHibernateProfiler.Common.Entity.Statistics.SessionFactory subject);
+
+
         /// <summary>
         /// Save prepared statement
         /// </summary>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="NHibernateProfiler.Common" namespace="NHibernateProfiler.Common">
+  <class name="NHibernateProfiler.Common.Entity.Statistics.SessionFactory, NHibernateProfiler.Common"  table="SessionFactoryStatistics" lazy="false">
+    <id name="UUID">
+      <generator class="assigned"></generator>
+    </id>
+    <property name="CloseStatementCount" />
+    <property name="CollectionFetchCount" />
+    <property name="CollectionLoadCount" />
+    <property name="CollectionUpdateCount" />
+    <property name="ConnectCount" />
+    <property name="EntityDeleteCount" />
+    <property name="EntityFetchCount" />
+    <property name="EntityInsertCount" />
+    <property name="EntityLoadCount" />
+    <property name="EntityUpdateCount" />
+    <property name="FlushCount" />
+    <property name="OptimisticFailureCount" />
+    <property name="PrepareStatementCount" />
+    <property name="QueryExecutionCount" />
+    <property name="QueryExecutionMaxTime" />
+    <property name="QueryExecutionMaxTimeQueryString" />
+    <property name="SessionCloseCount" />
+    <property name="SessionOpenCount" />
+    <property name="StartTime" />
+    <property name="SuccessfulTransactionCount" />
+    <property name="TransactionCount" />
+  </class>
+</hibernate-mapping>
