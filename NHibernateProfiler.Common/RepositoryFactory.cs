@@ -1,9 +1,8 @@
-﻿using Castle.DynamicProxy;
-using NHibernate.AdoNet.Util;
+﻿using NHibernate.AdoNet.Util;
 using System;
 
 
-namespace NHibernateProfiler
+namespace NHibernateProfiler.Common
 {
 	/// <summary>
 	/// bstack @ 17/03/2010

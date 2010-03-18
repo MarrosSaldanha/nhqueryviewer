@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProxyGenerationHook.cs" />
-    <Compile Include="RepositoryFactory.cs" />
     <Compile Include="Interceptor.cs" />
     <Compile Include="IProfiler.cs" />
     <Compile Include="Profiler.cs" />

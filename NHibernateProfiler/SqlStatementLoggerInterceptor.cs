@@ -42,7 +42,7 @@ namespace NHibernateProfiler
 			}
 			
 			// Save prepared statement to db
-			NHibernateProfiler.RepositoryFactory.Get().SavePreparedStatement(_preparedStatement);
+			NHibernateProfiler.Common.RepositoryFactory.Get().SavePreparedStatement(_preparedStatement);
 			
 			invocation.Proceed();
 		}

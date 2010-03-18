@@ -55,6 +55,7 @@
     <Compile Include="Entity\PreparedStatement.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Mappings\PreparedStatement.hbm.xml">
