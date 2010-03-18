@@ -3,14 +3,14 @@ using System.Reflection;
 using Castle.DynamicProxy;
 
 
-namespace NHibernateProfiler
+namespace NHibernateProfiler.Proxy
 {
 	/// <summary>
 	/// bstack @ 17/03/2010
 	/// Proxy generation hook via Castle DP. 
 	/// Used to decide whether to intercept methods or not
 	/// </summary>
-	public class ProxyGenerationHook: IProxyGenerationHook
+	public class GenerationHook: IProxyGenerationHook
 	{
 		/// <summary>
 		/// Should intercept method

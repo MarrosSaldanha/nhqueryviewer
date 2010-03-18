@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace NHibernateProfiler
+namespace NHibernateProfiler.Proxy
 {
 	/// <summary>
 	/// bstack @ 17/03/2010

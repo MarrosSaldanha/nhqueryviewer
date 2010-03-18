@@ -21,7 +21,7 @@ namespace NHibernateProfiler
 			var _sqlStatementLoggerProperty = _sessionImplFactorySettings.GetType().GetProperty("SqlStatementLogger");
 
 			// Set sql statement logger via reflection
-			_sqlStatementLoggerProperty.SetValue(_sessionImplFactorySettings, NHibernateProfiler.ProxyFactory.GetSqlStatementLogger(), null);
+			_sqlStatementLoggerProperty.SetValue(_sessionImplFactorySettings, NHibernateProfiler.Proxy.Factory.GetSqlStatementLogger(), null);
 
 		}
 	}
