@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using NHibernate.Cfg;
+using Castle.DynamicProxy;
+using Castle.Core;
 
 
 namespace NHibernateProfiler
@@ -38,13 +41,7 @@ namespace NHibernateProfiler
             if (c_configuration == null)
             {
                 // TODO: BS 21/12/2009 Configure in castle...
-                c_configuration = new Configuration().SetInterceptor(
-                    new NHibernateProfiler.Interceptor(
-                        new NHibernateProfiler.Common.Repository(
-                            this.CreateSessionFactoryFromNonDefaultConfiguration(@"D:\Temp\hibernate.cfg.xml")),
-                        new NHibernateProfiler.PreparedStatementParameter.Chain(),
-                        new NHibernateProfiler.PreparedStatementParameter.Value.Populater()));
-
+                c_configuration = new Configuration().SetInterceptor(new NHibernateProfiler.Interceptor());
             }
 
             this.StartProfilerApplicationProcess();
@@ -66,21 +63,6 @@ namespace NHibernateProfiler
             //_profilerApplicationProcess.StartInfo.Arguments = "ProcessStart.cs";
 
             //_profilerApplicationProcess.Start();
-        }
-
-
-        /// <summary>
-        /// Create session factory from non-default configuration. This session factory is used by the profiler to log data
-        /// </summary>
-        /// <param name="strNonDefaultNHibernateConfigurationFilePath"></param>
-        /// <returns></returns>
-        private NHibernate.ISessionFactory CreateSessionFactoryFromNonDefaultConfiguration(
-            string strNonDefaultNHibernateConfigurationFilePath)
-        {
-            var _configuration = new NHibernate.Cfg.Configuration();
-
-            _configuration.Configure(strNonDefaultNHibernateConfigurationFilePath);
-            return _configuration.BuildSessionFactory();
         }
     }
 }

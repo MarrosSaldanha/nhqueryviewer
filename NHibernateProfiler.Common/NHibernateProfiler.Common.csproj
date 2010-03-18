@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\DatabaseInfo.cs" />
     <Compile Include="Entity\PreparedStatementParameter.cs" />
     <Compile Include="Extension\Collection.cs" />
     <Compile Include="IRepository.cs" />

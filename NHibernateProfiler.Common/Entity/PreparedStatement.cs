@@ -25,10 +25,10 @@ namespace NHibernateProfiler.Common.Entity
         /// </summary>
         public string Sql { get; set; }
 
-        /// <summary>
-        /// Parameters
-        /// </summary>
-        public IList<NHibernateProfiler.Common.Entity.PreparedStatementParameter> Parameters { get; set; }
+		/// <summary>
+		/// Parameters
+		/// </summary>
+		public ICollection<NHibernateProfiler.Common.Entity.PreparedStatementParameter> Parameters { get; set; }
 
     }
 }

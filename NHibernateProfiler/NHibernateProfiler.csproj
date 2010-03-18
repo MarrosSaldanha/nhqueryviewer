@@ -31,6 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\NHibernate-2.1.2.GA-bin\Required_For_LazyLoading\Castle\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\NHibernate-2.1.2.GA-bin\Required_For_LazyLoading\Castle\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\NHibernate\Required_Bins\NHibernate.dll</HintPath>
@@ -62,19 +70,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProxyGenerationHook.cs" />
+    <Compile Include="RepositoryFactory.cs" />
     <Compile Include="Interceptor.cs" />
     <Compile Include="IProfiler.cs" />
-    <Compile Include="PreparedStatementParameter\Chain.cs" />
-    <Compile Include="PreparedStatementParameter\Value\Populater.cs" />
-    <Compile Include="PreparedStatementParameter\Value\IPopulater.cs" />
-    <Compile Include="PreparedStatementParameter\IChain.cs" />
-    <Compile Include="PreparedStatementParameter\Parser\Base.cs" />
-    <Compile Include="PreparedStatementParameter\Parser\NHConfiguration.cs" />
-    <Compile Include="PreparedStatementParameter\Parser\IParser.cs" />
-    <Compile Include="PreparedStatementParameter\Parser\VALUEClause.cs" />
-    <Compile Include="PreparedStatementParameter\Parser\WHEREClause.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProxyFactory.cs" />
+    <Compile Include="SqlStatementLoggerInterceptor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernateProfiler.Common\NHibernateProfiler.Common.csproj">
