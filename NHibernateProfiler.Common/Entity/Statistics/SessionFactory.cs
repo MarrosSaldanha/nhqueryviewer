@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 
 namespace NHibernateProfiler.Common.Entity.Statistics
 {
@@ -118,5 +120,10 @@ namespace NHibernateProfiler.Common.Entity.Statistics
 		/// The number of transactions we know to have completed
 		/// </summary>
 		public long TransactionCount { get; set; }
+
+		/// <summary>
+		/// Sessions
+		/// </summary>
+		public ICollection<NHibernateProfiler.Common.Entity.Statistics.Session> Sessions { get; set; }
 	}
 }

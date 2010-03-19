@@ -25,5 +25,9 @@
     <property name="StartTime" />
     <property name="SuccessfulTransactionCount" />
     <property name="TransactionCount" />
+    <set name="Sessions" table="SessionStatistics" cascade="all">
+      <key column="SessionFactoryStatisticsId" />
+      <one-to-many class="NHibernateProfiler.Common.Entity.Statistics.Session, NHibernateProfiler.Common" />
+    </set>
   </class>
 </hibernate-mapping>

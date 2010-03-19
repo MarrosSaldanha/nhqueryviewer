@@ -1,8 +1,6 @@
-Unit test coverage - Mocking framework (Rhino Mocks or MoQ) 
 Must add Castle Windsor IOC container - should I use a new container for learning purposes - what about Unity?
 Must consolidate all configuration into a single place
-Must expose NHibernate statistics
 Must possibly have a reporting engine
-What about sessions and session factories that are in use - we should expose this at the front
+Support for multiple session factories
 UI - Web or windows app MVC/WPF ???
-Need to improve parameter resolution. It falls down if object names are different to columns but this is ok for first step 
+Go long namespaced with all NHibernate and castle stuff - not consistent at the moment!

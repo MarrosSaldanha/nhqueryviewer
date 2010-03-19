@@ -77,6 +77,7 @@
     <Compile Include="Proxy\Factory.cs" />
     <Compile Include="Proxy\GenerationHook.cs" />
     <Compile Include="Proxy\SqlStatementLoggerInterceptor.cs" />
+    <Compile Include="SessionFactoryStatisticsBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernateProfiler.Common\NHibernateProfiler.Common.csproj">

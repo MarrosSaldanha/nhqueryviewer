@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\PreparedStatementParameter.cs" />
+    <Compile Include="Entity\SessionDataComposite.cs" />
+    <Compile Include="Entity\Statistics\Session.cs" />
     <Compile Include="Entity\Statistics\SessionFactory.cs" />
     <Compile Include="Extension\Collection.cs" />
     <Compile Include="IRepository.cs" />
@@ -70,6 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Mappings\SessionFactoryStatistics.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Mappings\SessionStatistics.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
