@@ -38,10 +38,11 @@ namespace NHibernateProfiler
         /// <returns>NHibernate configuration object</returns>
         public Configuration Initialise()
         {
-            if (c_configuration == null)
+			if (NHibernateProfiler.Profiler.c_configuration == null)
             {
                 // TODO: BS 21/12/2009 Configure in castle...
-                c_configuration = new Configuration().SetInterceptor(new NHibernateProfiler.Interceptor());
+				NHibernateProfiler.Profiler.c_configuration = new Configuration().SetInterceptor(
+					new NHibernateProfiler.Interceptor());
             }
 
             this.StartProfilerApplicationProcess();
@@ -55,13 +56,11 @@ namespace NHibernateProfiler
         /// </summary>
         private void StartProfilerApplicationProcess()
         {
+			// TODO: BS 25/03/2010 This is dead code but I want to keep onto it for now ... should be removed soon
             //var _profilerApplicationProcess = new Process();
-
             //_profilerApplicationProcess.StartInfo.FileName = @"C:\Users\Billy\Documents\Visual Studio 2008\Projects\NHibernateProfiler\NHibernateProfiler.UI\bin\Debug\NHibernateProfiler.UI.exe";
-            
             // TODO: BS We dont need any arguments yet
             //_profilerApplicationProcess.StartInfo.Arguments = "ProcessStart.cs";
-
             //_profilerApplicationProcess.Start();
         }
     }

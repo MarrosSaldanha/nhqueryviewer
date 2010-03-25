@@ -12,6 +12,8 @@ namespace NHibernateProfiler.Common
     public class Repository : NHibernateProfiler.Common.IRepository
     {
         private NHibernate.ISessionFactory c_sessionFactory;
+
+		// TODO: BS 25/03/2010 Should really use a UOW pattern here ...
 		private NHibernate.ISession c_currentSessionFactoryStatisticsSession;
 
 

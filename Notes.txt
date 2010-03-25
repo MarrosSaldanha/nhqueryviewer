@@ -4,3 +4,5 @@ Must possibly have a reporting engine
 Support for multiple session factories
 UI - Web or windows app MVC/WPF ???
 Go long namespaced with all NHibernate and castle stuff - not consistent at the moment!
+Must consolidate all dependencies and invert control where applicable - build castle file
+UOW implementation
