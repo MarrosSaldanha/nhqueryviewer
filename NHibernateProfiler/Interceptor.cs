@@ -74,9 +74,11 @@ namespace NHibernateProfiler
 			string[] propertyNames, 
 			NHibernate.Type.IType[] types)
 		{
+			var _result = base.OnLoad(entity, id, state, propertyNames, types);
+
 			this.UpdateSessionFactoryStatistics();
 
-			return base.OnLoad(entity, id, state, propertyNames, types);
+			return _result;
 		}
 
 
@@ -95,9 +97,9 @@ namespace NHibernateProfiler
 			string[] propertyNames, 
 			NHibernate.Type.IType[] types)
 		{
-			this.UpdateSessionFactoryStatistics();
-
 			base.OnDelete(entity, id, state, propertyNames, types);
+			
+			this.UpdateSessionFactoryStatistics();
 		} 
 
 
@@ -117,9 +119,11 @@ namespace NHibernateProfiler
 			string[] propertyNames, 
 			NHibernate.Type.IType[] types)
 		{
+			var _result = base.OnSave(entity, id, state, propertyNames, types);
+
 			this.UpdateSessionFactoryStatistics();
 
-			return base.OnSave(entity, id, state, propertyNames, types);
+			return _result;
 		}
 
 

@@ -10,6 +10,14 @@ namespace NHibernateProfiler.Common
     public interface IRepository
     {
 		/// <summary>
+		/// Get session factory statistics
+		/// </summary>
+		/// <param name="UUID"></param>
+		/// <returns></returns>
+		NHibernateProfiler.Common.Entity.Statistics.SessionFactory GetSessionFactoryStatistics(
+			string UUID);
+
+		/// <summary>
 		/// Save session factory statistics
 		/// </summary>
 		/// <param name="subject"></param>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace NHibernateProfiler
@@ -22,7 +23,12 @@ namespace NHibernateProfiler
 		{
 			var _sessionFactoryStatistics = sessionFactoryImpl.Statistics;
 
-			var _NHPSessionFactoryStatistics = new NHibernateProfiler.Common.Entity.Statistics.SessionFactory();
+			var _NHPSessionFactoryStatistics = NHibernateProfiler.Common.RepositoryFactory.Get()
+				.GetSessionFactoryStatistics(sessionFactoryImpl.Uuid);
+
+			if (_NHPSessionFactoryStatistics == null) _NHPSessionFactoryStatistics = 
+				new NHibernateProfiler.Common.Entity.Statistics.SessionFactory();
+
 			_NHPSessionFactoryStatistics.UUID = sessionFactoryImpl.Uuid;
 			_NHPSessionFactoryStatistics.CloseStatementCount = _sessionFactoryStatistics.CloseStatementCount;
 			_NHPSessionFactoryStatistics.CollectionFetchCount = _sessionFactoryStatistics.CollectionFetchCount;
@@ -46,35 +52,61 @@ namespace NHibernateProfiler
 			_NHPSessionFactoryStatistics.SuccessfulTransactionCount = _sessionFactoryStatistics.SuccessfulTransactionCount;
 			_NHPSessionFactoryStatistics.TransactionCount = _sessionFactoryStatistics.TransactionCount;
 			_NHPSessionFactoryStatistics.QueryExecutionCount = _sessionFactoryStatistics.QueryExecutionCount;
-
-			_NHPSessionFactoryStatistics.Sessions = new List<NHibernateProfiler.Common.Entity.Statistics.Session>();
+			
 			foreach (var _sessionId in sessionFactorySessions.Keys)
 			{
 				var _sessionImpl = sessionFactorySessions[_sessionId].Impl;
 				var _actualSessionStatistics = sessionFactorySessions[_sessionId].Statistics;
+				NHibernateProfiler.Common.Entity.Statistics.Session _currentSessionStatistics = null;
 
-				if (_sessionImpl.IsClosed) { continue; }
 
-				var _sessionStatistics = new NHibernateProfiler.Common.Entity.Statistics.Session();
-				_sessionStatistics.ActiveEntityMode = _sessionImpl.EntityMode.ToString();
-				_sessionStatistics.CacheMode = _sessionImpl.CacheMode.ToString();
-				_sessionStatistics.CollectionCount = _actualSessionStatistics.CollectionCount;
-				_sessionStatistics.ConnectionState = _sessionImpl.Connection.State.ToString();
-				_sessionStatistics.ConnectionString = _sessionImpl.Connection.ConnectionString;
-				_sessionStatistics.ConnectionTimeout = _sessionImpl.Connection.ConnectionTimeout;
-				_sessionStatistics.EntityCount = _actualSessionStatistics.EntityCount;
-				_sessionStatistics.EntityMode = _sessionImpl.EntityMode.ToString();
-				_sessionStatistics.FetchProfile = _sessionImpl.FetchProfile;
-				_sessionStatistics.FlushMode = _sessionImpl.FlushMode.ToString();
-				_sessionStatistics.Id = _sessionImpl.SessionId;
-				_sessionStatistics.IsClosed = _sessionImpl.IsClosed;
-				_sessionStatistics.IsConnected = _sessionImpl.IsConnected;
-				_sessionStatistics.IsEventSource = _sessionImpl.IsEventSource;
-				_sessionStatistics.IsOpen = _sessionImpl.IsOpen;
-				_sessionStatistics.Timestamp = _sessionImpl.Timestamp;
-				_sessionStatistics.TransactionInProgress = _sessionImpl.TransactionInProgress;
+				if (_NHPSessionFactoryStatistics.Sessions != null)
+				{
+					_currentSessionStatistics = _NHPSessionFactoryStatistics.Sessions.FirstOrDefault<NHibernateProfiler.Common.Entity.Statistics.Session>(
+						session => session.Id == _sessionId);
+				}
 
-				_NHPSessionFactoryStatistics.Sessions.Add(_sessionStatistics);
+				var _doesSessionExistAlready = (_currentSessionStatistics != null); 
+
+				if (_sessionImpl.IsClosed) 
+				{
+					_currentSessionStatistics.IsClosed = true;
+					
+					continue; 
+				}
+
+				if (!_doesSessionExistAlready)
+				{
+					_currentSessionStatistics = new NHibernateProfiler.Common.Entity.Statistics.Session();
+				}
+
+				_currentSessionStatistics.ActiveEntityMode = _sessionImpl.EntityMode.ToString();
+				_currentSessionStatistics.CacheMode = _sessionImpl.CacheMode.ToString();
+				_currentSessionStatistics.CollectionCount = _actualSessionStatistics.CollectionCount;
+				_currentSessionStatistics.ConnectionState = _sessionImpl.Connection.State.ToString();
+				_currentSessionStatistics.ConnectionString = _sessionImpl.Connection.ConnectionString;
+				_currentSessionStatistics.ConnectionTimeout = _sessionImpl.Connection.ConnectionTimeout;
+				_currentSessionStatistics.EntityCount = _actualSessionStatistics.EntityCount;
+				_currentSessionStatistics.EntityMode = _sessionImpl.EntityMode.ToString();
+				_currentSessionStatistics.FetchProfile = _sessionImpl.FetchProfile;
+				_currentSessionStatistics.FlushMode = _sessionImpl.FlushMode.ToString();
+				_currentSessionStatistics.Id = _sessionImpl.SessionId;
+				_currentSessionStatistics.IsClosed = _sessionImpl.IsClosed;
+				_currentSessionStatistics.IsConnected = _sessionImpl.IsConnected;
+				_currentSessionStatistics.IsEventSource = _sessionImpl.IsEventSource;
+				_currentSessionStatistics.IsOpen = _sessionImpl.IsOpen;
+				_currentSessionStatistics.Timestamp = _sessionImpl.Timestamp;
+				_currentSessionStatistics.TransactionInProgress = _sessionImpl.TransactionInProgress;
+
+				if (_NHPSessionFactoryStatistics.Sessions == null)
+				{
+					_NHPSessionFactoryStatistics.Sessions = new List<NHibernateProfiler.Common.Entity.Statistics.Session>();
+				}
+
+				if (!_doesSessionExistAlready)
+				{
+					_NHPSessionFactoryStatistics.Sessions.Add(_currentSessionStatistics);
+				}
 			}
 
 			return _NHPSessionFactoryStatistics;
