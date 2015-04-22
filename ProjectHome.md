@@ -1,0 +1,1 @@
+Enables you to view NHibernate queries that are executed by your application
